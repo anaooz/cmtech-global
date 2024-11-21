@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Editar Registro de Carregamento</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/home}">CM Tech</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/bateria/listar}">Baterias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/estacao-carregamento/listar}">Estações de Carregamento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/registro-carregamento/listar}">Registros de Carregamento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/veiculo/listar}">Veículos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div layout:fragment="conteudo" class="container mt-5">
+    <h1 class="text-center">Editar Registro de Carregamento</h1>
+
+    <form th:action="@{/registro-carregamento/editar}" th:object="${registroCarregamento}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="mb-3">
+            <label for="veiculo" class="form-label">Veículo</label>
+            <select id="veiculo" class="form-control" th:field="*{veiculo}" required>
+                <option th:each="veiculo : ${veiculos}" th:value="${veiculo.id}" th:text="${veiculo.modelo}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="estacaoCarregamento" class="form-label">Estação de Carregamento</label>
+            <select id="estacaoCarregamento" class="form-control" th:field="*{estacaoCarregamento}" required>
+                <option th:each="estacao : ${estacoes}" th:value="${estacao.id}" th:text="${estacao.nome}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="dataHoraInicio" class="form-label">Data e Hora de Início</label>
+            <input type="datetime-local" id="dataHoraInicio" class="form-control" th:field="*{dataHoraInicio}" required/>
+        </div>
+
+        <div class="mb-3">
+            <label for="dataHoraFim" class="form-label">Data e Hora de Fim</label>
+            <input type="datetime-local" id="dataHoraFim" class="form-control" th:field="*{dataHoraFim}"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="energiaUtilizada" class="form-label">Energia Utilizada (kWh)</label>
+            <input type="number" id="energiaUtilizada" class="form-control" th:field="*{energiaUtilizada}" step="0.01" required/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+    </form>
+
+    <a href="#" class="btn btn-link mt-3" th:href="@{/registro-carregamento/listar}">Voltar à Lista de Registros</a>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>

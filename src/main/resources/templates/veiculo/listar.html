@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Listar Veículos</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/home}">CM Tech</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/bateria/listar}">Baterias</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/estacao-carregamento/listar}">Estações de Carregamento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/registro-carregamento/listar}">Registros de Carregamento</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/veiculo/listar}">Veículos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div layout:fragment="conteudo" class="container mt-5">
+    <h1 class="text-center">Lista de Veículos</h1>
+
+    <a class="btn btn-primary mb-3" th:href="@{/veiculo/cadastrar}">Cadastrar Novo Veículo</a>
+
+    <div th:if="${mensagem}" class="alert alert-success">
+        <span th:text="${mensagem}"></span>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Ano</th>
+            <th scope="col">Capacidade da Bateria (kWh)</th>
+            <th scope="col">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="veiculo : ${veiculos}">
+            <td th:text="${veiculo.id}"></td>
+            <td th:text="${veiculo.modelo}"></td>
+            <td th:text="${veiculo.ano}"></td>
+            <td th:text="${veiculo.capacidadeBateria}"></td>
+            <td>
+                <a class="btn btn-warning btn-sm" th:href="@{/veiculo/editar/{id}(id=${veiculo.id})}">Editar</a>
+                <form th:action="@{/veiculo/remover}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${veiculo.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</body>
+</html>
